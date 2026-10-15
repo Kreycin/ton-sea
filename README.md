@@ -10,6 +10,8 @@ after that he puts the kettle on and waits.
 
 ![the 44 shots of the film, one frame each](docs/img/shots.jpg)
 
+![the whole film, one frame every 4 seconds](docs/img/cuts.jpg)
+
 **How it was made, step by step:** [docs/METHOD.md](docs/METHOD.md). **Use the same method in your own project:** open
 this repo in Claude Code and the `code-video` skill ([.claude/skills/code-video](.claude/skills/code-video/SKILL.md))
 loads; ask it for a short film about anything.

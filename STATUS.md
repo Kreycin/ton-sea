@@ -48,10 +48,10 @@ code, Ghibli-inspired, built with ClaudeAnimationBase (copied from P Doom).
 - `src/scenes/styles.js`: rejected style tests, reference only. `out/cast_v1_backup.js`: pre-rig cast.
 
 ## Next
-1. Full 199.95 s render with the mix (`node render.mjs --frames --workers=2`, then `--encode` + mux `out/audio/mix.wav`),
-   ffprobe, cut sheet, frame-diff; send 720p + 540p.
-2. Nick listens: voices, SFX levels, music; fix his notes (gains in `mix.mjs` LEVEL, events in `sfx.mjs`).
-3. English subtitles (`subs.js`), then the final 1080p.
+1. Nick listens to `out/ton-sea_v3_720p.mp4` (v3 render 2026-10-15: 199.95 s, 1080p master `out/video.mp4`, frame-diff OK,
+   off-cut spikes are only the lightning): voices, SFX levels, music; fix notes (`mix.mjs` LEVEL, events in `sfx.mjs`).
+2. English subtitles (`subs.js`), then the final 1080p.
+3. Before the YouTube how-to: Nick decides whether `Kreycin/ton-sea` goes public (audio rights below).
 
 ## Open questions
 - Audio rights before any public posting: TTS voices are Google prebuilt (Vertex terms); music uses the macOS GS sound

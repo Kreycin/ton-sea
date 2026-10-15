@@ -57,10 +57,11 @@ code, Ghibli-inspired, built with ClaudeAnimationBase (copied from P Doom).
 - `src/scenes/styles.js`: rejected style tests, reference only. `out/cast_v1_backup.js`: pre-rig cast.
 
 ## Next
-1. v4 render (arms v2, titles, subtitles): encode with `--audio=out/audio/mix.wav`, ffprobe, cut sheet, frame-diff, send
-   720p + 540p, commit + push. Then Nick reviews; small arm notes left: 22.2 s / 171.4 s long back arm, 173.5 s stool lean.
+1. Nick reviews v4 (`out/ton-sea_v4_720p.mp4`, 2026-10-15: 199.95 s 1080p master `out/video.mp4`, frame-diff spikes = only
+   lightning; 20c Mai now walks away from the shop). Small arm notes left: 22.2 s / 171.4 s long back arm, 173.5 s stool.
 2. Sound notes from Nick, if any (`mix.mjs` LEVEL, events in `sfx.mjs`).
-3. YouTube post: title/description drafted (English); cover mockups (3 concepts) after the v4 render.
+3. YouTube post: English title/description drafted in chat; covers `out/cover/cover_{rain,dusk,tea}.jpg` (covers.html +
+   shoot.mjs; clean stills via `render.mjs --sheet=t --clean`). Nick picks one.
 
 ## Open questions
 - Audio rights before any public posting: TTS voices are Google prebuilt (Vertex terms); music uses the macOS GS sound

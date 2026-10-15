@@ -13,6 +13,7 @@
 //     node render.mjs --encode --out=out/video.mp4                                           out/frames → MP4
 //   Standalone loops (LOOPS in the page): add --loop=<name> to any of the above (times are then loop times), or
 //     node render.mjs --loop=emotions --png --out=out/loop_emotions                          one cycle as PNGs (for GIFs)
+//   --clean leaves out the titles and subtitles (titles.js), for stills such as a video cover.
 //   Music: --audio=assets/song.mp3 (or PROJECT.audio) is muxed into --clip and --encode. Other flags: --fps=24,
 //   --chrome=<path to Chrome/Chromium>.
 import puppeteer from 'puppeteer-core';
@@ -76,6 +77,7 @@ async function openPage(tag = '') {
     const ok = await page.evaluate(name => { if (!LOOPS[name]) return false; window.LOOP = LOOPS[name]; return true; }, args.loop);
     if (!ok) { console.error(`no loop named "${args.loop}"`); process.exit(1); }
   }
+  if (args.clean) await page.evaluate(() => { window.CLEAN = true; });   // no titles or subtitles (stills for covers)
   return page;
 }
 const frameOf = async (page, t, type, q) => {

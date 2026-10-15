@@ -141,7 +141,7 @@ function drawSub(c, L, t, next) {
 }
 
 function drawOverlay(c, t) {
-  if (window.LOOP) return;
+  if (window.LOOP || window.CLEAN) return;                                     // render.mjs --clean: the bare picture
   drawTitles(c, t);
   SUB_LINES.forEach((L, i) => drawSub(c, L, t, SUB_LINES[i + 1]?.t0));          // a line clears when the next one starts
 }

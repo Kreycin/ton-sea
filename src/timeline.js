@@ -32,6 +32,7 @@ function drawWorld(t) {
       XF_A = 1 - ease((t - t0) / d);
       image(paperG, 0, 0);
     }
+    HEADS = {};                                         // titles.js: only the heads of the shot on screen
     SHOTS[i][1](t, t - t0, end - t0);
     CAM = null;
     if (typeof subs === 'function') subs(t);

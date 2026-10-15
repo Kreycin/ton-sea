@@ -102,6 +102,21 @@ characters talking in English, and music. The soundtrack is built by six scripts
 Claude cannot listen. It checked timing on spectrograms (did the thunder land on the flash? does the pour rise as the
 glass fills?) and intelligibility with numbers; the director listened and gave notes on levels and sounds.
 
+## 9. Titles, subtitles and a second look at the arms
+
+The director asked for subtitles that belong to the story rather than a plain strip at the bottom, and for an opening
+title with credits. `src/titles.js` draws both on the finished frame, after the dissolve and before the paper grain (so
+the grain lies over the letters too). `cast.js` leaves each speaker's head position on screen in `HEADS`; a line stands
+beside that head on its outer side, or over it when the other character is in the way, and drops low and italic when the
+speaker is off screen. Words appear at onsets estimated from the loudness envelope, and each line leaves with its scene's
+weather: washed down in the rain, lifted like steam indoors, blown sideways by the breeze after the rain.
+
+The same pass fixed Ton's arms, which the director found hard to watch. The cause was in the drawing, not the poses:
+the sleeve was a square-ended slab that sat on the body like a plank, the forearm was a thin stick, and the towel over
+one shoulder hung outside the body's outline, where it read as a third arm. The sleeve now has a round shoulder cap and
+covers the top of a fuller forearm, and the towel drapes down the chest. Three poses changed too: hands back on the sill
+after the shutters open, elbows down in the shrug, and the hands wide on the noren so no arm passes behind the head.
+
 ## Gotchas we hit
 
 - A biquad filter whose centre frequency goes below zero blows up: the wind stem once peaked at +168 dB. Clamp it.
@@ -114,6 +129,9 @@ glass fills?) and intelligibility with numbers; the director listened and gave n
 - `hash()` in the engine takes numbers only; use `boilSeed('name')` for strings.
 - The last shot gets its length up to the end of the film. In an act's last shot, compute the length locally.
 - Raw p5 drawing inside a brush frame needs `flushBrush()` first, or the layers come out in the wrong order.
+- A limb drawn as a ribbon has square ends. Round the end that meets the body, or the arm looks bolted on.
+- Anything hanging just outside a character's outline (a towel, a strap) reads as a limb. Keep it inside the silhouette.
+- Inside `cast.js`, `W` is a local helper, not the frame width: use p5's `width` there.
 - With 8 GB of memory, render with `--workers=2`. Frames are resumable, so delete `out/frames` after changing anything.
 
 ## Make your own

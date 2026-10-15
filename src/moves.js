@@ -2,14 +2,15 @@
 // ton() / mai() (see cast.js); pass it as the pose argument. Expression keys ride in `face`, and `t` drives breath,
 // blink and steam. Heights (counter, stove, sill, seat) are local units of the k = 1 body, so a scene can match its set.
 // Load after acting.js (pose, antic, nod) and cast.js.
-const HANG_T = { armF: [60, -236], armB: [-60, -236], handF: Math.PI / 2 - .1, handB: Math.PI / 2 + .1 };
+const HANG_T = { armF: [66, -242], armB: [-64, -242], handF: Math.PI / 2 - .1, handB: Math.PI / 2 + .1 };   // a little give at the elbows
 const TONM = {
   // 02: straightens the noren he has just hung, a hand on each side of the hem (local -512 at the shop front), a small tug,
   // lets go (< 1.5 s), turns to us with the small smile
   noren: lt => ({ t: lt, ...pose(lt, [
     [0, { ...HANG_T, armF: [70, -360], armB: [-66, -354], handF: -.3, handB: -.2, fistF: true, fistB: true, lean: 0, nod: 0, face: { eyes: 'open', mouth: 'flat', look: .6, brow: .2 } }],
-    [.2, { armF: [104, -524], armB: [-104, -518], handF: -1.4, handB: -1.7, lean: -.04, nod: -.14, face: { eyes: 'open', mouth: 'flat', look: .2, brow: .6 }, _d: .6 }],
-    [1.05, { armF: [106, -514], armB: [-106, -508], _d: .14, _snap: true }],
+    // hands wide on the hem corners, elbows out, so neither arm passes behind his head
+    [.2, { armF: [132, -500], armB: [-132, -496], elbB: -1, handF: -1.4, handB: -1.7, lean: -.04, nod: -.14, face: { eyes: 'open', mouth: 'flat', look: .2, brow: .6 }, _d: .6 }],
+    [1.05, { armF: [134, -490], armB: [-134, -486], _d: .14, _snap: true }],
     [1.5, { ...HANG_T, fistF: false, fistB: false, lean: 0, nod: .04, _d: .55 }],
     [2.1, { nod: 0, face: { eyes: 'half', mouth: 'smile', look: -.6, brow: -.3 }, _d: .4 }],
   ]) }),
@@ -17,7 +18,8 @@ const TONM = {
   shutter: lt => ({ t: lt, ...pose(lt, [
     [0, { armF: [96, -372], armB: [70, -366], handF: -.3, handB: -.3, lean: .02, face: { eyes: 'open', mouth: 'flat', look: .8 } }],
     [.35, { armF: [168, -398], armB: [150, -408], handF: -.15, handB: -.2, lean: .12, _d: .35, _snap: true }],
-    [1.1, { armF: [150, -380], armB: [130, -386], lean: .06, face: { eyes: 'half', mouth: 'smile', look: .8, brow: -.4 }, _d: .5 }],
+    // then the hands come down onto the sill and he leans into the morning air (held in the air they read as a stiff wing)
+    [1.1, { armF: [156, -284], armB: [128, -288], handF: .12, handB: .08, lean: .14, face: { eyes: 'half', mouth: 'smile', look: .8, brow: -.4 }, _d: .7 }],
   ]) }),
   // 03b: wipes the counter in slow loops with the red-striped towel; the back hand rests flat on the top
   wipe: (lt, cy = -268) => {
@@ -46,7 +48,7 @@ const TONM = {
   // 06: a small shrug, palms up, head tipped, smile
   shrug: lt => ({ t: lt, ...pose(lt, [
     [0, { ...HANG_T, shrug: 0, nod: 0, face: { eyes: 'half', mouth: 'flat', look: -.3, tilt: 0 } }],
-    [.25, { armF: [100, -296], armB: [-88, -300], handF: -.5, handB: Math.PI + .6, lenF: .85, lenB: .85, shrug: 1, nod: .05, face: { eyes: 'half', mouth: 'smile', look: -.3, tilt: 1 }, _d: .3, _snap: true }],
+    [.25, { armF: [100, -296], armB: [-96, -300], elbB: -1, handF: -.5, handB: Math.PI + .6, lenF: .85, lenB: .85, shrug: 1, nod: .05, face: { eyes: 'half', mouth: 'smile', look: -.3, tilt: 1 }, _d: .3, _snap: true }],
     [1.05, { ...HANG_T, lenF: 1, lenB: 1, shrug: 0, nod: 0, _d: .45 }],
   ]) }),
   // 07: forearms on the window sill, eyes closed, listening to the waves; slow deep breaths

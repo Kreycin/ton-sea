@@ -43,6 +43,14 @@ const CAST = {
   const ell = (dx, dy, rx, ry, col, o = {}) => { const [cx, cy] = P(dx, dy); paint(ellPts(cx, cy, rx * K, ry * K, o.n ?? 20, 0, (o.rot ?? 0) * F), o.noInk ? { wash: col, washOp: o.op ?? 255, ink: null } : { wash: col, ink: C.ink, sw: (o.sw ?? .9) * C.swK }); };
   // a limb: tapered ribbon through shoulder, elbow, wrist
   const limb = (a, w0, w1, col) => paint(ribbon(pts(a), w0 * K, w1 * K), { wash: col, ink: C.ink, sw: C.swK });
+  // a sleeve: the same ribbon with a round cap at the shoulder, so the arm grows out of the body instead of a square slab
+  const sleeve = (a, w0, w1, col) => {
+    const q = pts(a), r = ribbon(q, w0 * K, w1 * K), c = q[0], R0 = r[r.length - 1], cap = [];
+    const a0 = Math.atan2(R0[1] - c[1], R0[0] - c[0]), back = Math.atan2(c[1] - q[1][1], c[0] - q[1][0]);   // round the side away from the elbow
+    const dir = Math.cos(a0 - Math.PI / 2 - back) > Math.cos(a0 + Math.PI / 2 - back) ? 1 : -1;
+    for (let k = 1; k < 8; k++) { const a = a0 - dir * Math.PI * k / 8; cap.push([c[0] + Math.cos(a) * w0 * K / 2, c[1] + Math.sin(a) * w0 * K / 2]); }
+    paint(r.concat(cap), { wash: col, ink: C.ink, sw: C.swK });
+  };
   // small vector helpers (local space)
   const add = (a, b, k = 1) => [a[0] + b[0] * k, a[1] + b[1] * k];
   const sub = (a, b) => [a[0] - b[0], a[1] - b[1]];
@@ -80,6 +88,12 @@ const CAST = {
 const speak = (who, fe) => {
   const v = typeof SPEAK === 'function' ? SPEAK(who, NOW_T) : 0;
   return v > .6 ? { ...fe, mouth: 'pant' } : v > .22 ? { ...fe, mouth: 'o' } : fe;
+};
+// titles.js places a speaker's subtitle beside this head: its screen position and scale, when it is in the frame
+const seen = (who, h) => {
+  if (typeof HEADS !== 'object') return;
+  const [x, y] = toScreen(h[0], h[1]), s = K * (CAM ? CAM.zoom : 1);
+  if (x > -40 && x < width + 40 && y > -20 && y < height + 40) HEADS[who] = { x, y, s };   // W here is the local ground→world helper
 };
 const sway = o => o.t === undefined ? 0 : .01 * Math.sin(o.t * 1.05 + (o.id || 0) * 1.7);
   const headDrift = o => o.t === undefined ? 0 : .022 * Math.sin(o.t * .73 + (o.id || 0)) + .01 * Math.sin(o.t * 1.9 + 1);
@@ -166,9 +180,8 @@ const sway = o => o.t === undefined ? 0 : .01 * Math.sin(o.t * 1.05 + (o.id || 0
   // Ton's arm: sleeve rolled to the elbow, bare forearm, then (between forearm and hand) whatever he holds
   function tonArm(s0, tg, bend, ang, fist, pr, rot, tt, ln0 = 1) {
     const [el, wr] = ik(s0, tg, 92 * ln0, 70 * ln0, bend), u = unit(sub(wr, el)), n = [-u[1], u[0]];
-    limb([s0, mid(s0, el, .55), add(el, u, 6)], 30, 26, C.tonShirt);
-    limb([el, mid(el, wr), wr], 20, 17, C.skin);
-    ln([add(el, n, 13), add(el, n, -13)], .8, C.tonShirtDk);                    // rolled cuff
+    limb([add(el, u, -8), mid(el, wr), wr], 23, 18, C.skin);                      // forearm first: the sleeve covers its top
+    sleeve([s0, mid(s0, el, .55), add(el, u, 8)], 32, 29, C.tonShirt);
     const a = ang ?? Math.atan2(u[1], u[0]), h0 = add(wr, u, 6), g = add(h0, [Math.cos(a), Math.sin(a)], 8);
     if (pr === 'kettle') SPOUT = add(g, rotV([70, 8], rot || 0));
     if (pr === 'cup' || pr === 'glass') prop(pr, add(g, [-2, -6]), rot, tt);
@@ -232,8 +245,10 @@ const sway = o => o.t === undefined ? 0 : .01 * Math.sin(o.t * 1.05 + (o.id || 0
     sh([[-22, -290], [10, -290], [10, -250], [-22, -250]], C.apronDk, { curv: .1, sw: .7 });   // pocket
     // towel over the left shoulder
     if (o.towel !== false) {
-      sh([[-58, -400 + sy], [-30, -412 + sy], [-36, -360], [-44, -320], [-62, -326]], C.towel, { curv: .4, sw: .9 });
-      ln([[-58, -340], [-44, -336]], 1, C.towelLine);
+      // draped over the shoulder and down the chest, inside the body's outline (hanging off the side it read as a third arm)
+      sh([[-50, -402 + sy], [-22, -413 + sy], [-19, -372], [-23, -336], [-47, -332], [-44, -372]], C.towel, { curv: .35, sw: .9 });
+      ln([[-44, -346], [-22, -349]], 1, C.towelLine); ln([[-44, -353], [-21, -356]], .6, C.towelLine);
+      ln([[-36, -404 + sy], [-33, -380]], .5, '#D8CFBF');                                                      // fold
     }
     if (bFront) gB = bare(() => tonArm(shB, armB, o.elbB ?? 1, o.handB, o.fistB, o.propB, o.rotB, tt, o.lenB));
     // right arm (front)
@@ -241,6 +256,7 @@ const sway = o => o.t === undefined ? 0 : .01 * Math.sin(o.t * 1.05 + (o.id || 0
     XS = [body, { a: (o.nod || 0) + headDrift(o), px: 0, py: -420 }];
     tonHead(speak('ton', fe));
     const head = P(0, -480);
+    seen('ton', head);
     XS = [];
     return { head, hands: [W(gB), W(gF)], feet: feet.map(W), spout: SPOUT && W(SPOUT) };
   }
@@ -444,6 +460,7 @@ const sway = o => o.t === undefined ? 0 : .01 * Math.sin(o.t * 1.05 + (o.id || 0
     XS = [body, { a: (o.nod || 0) + headDrift(o), px: 0, py: -390 }];
     maiHead(speak('mai', fe));
     const head = P(0, -440);
+    seen('mai', head);
     if (o.towel === 'head') {                         // the towel over her head, framing the face, ends on her shoulders
       sh([[-64, -372], [-62, -462], [-42, -514], [0, -530], [42, -516], [62, -462], [66, -372], [48, -366], [44, -428], [36, -472], [0, -490], [-36, -472], [-44, -428], [-48, -366]], C.towel, { curv: .5, sw: .9 });
       flat([[36, -472], [44, -428], [48, -366], [66, -372], [62, -462], [42, -510]], '#DCD2C0', 160, .5);
@@ -472,6 +489,6 @@ const sway = o => o.t === undefined ? 0 : .01 * Math.sin(o.t * 1.05 + (o.id || 0
     paint(ellPts(x, y, 36 * k * (.4 + q), 6 * k * (.4 + q), 16, 0), { wash: col, washOp: 120 * (1 - q), ink: null });
   }
   window.ton = ton; window.mai = mai; window.splash = splash;
-  window.tonHead = (x, y, k, e, f = 1) => { X = x; Y = y; K = k; F = f; XS = []; tonHead(e); };
-  window.maiHead = (x, y, k, e, f = 1) => { X = x; Y = y; K = k; F = f; XS = []; maiHead(e); };
+  window.tonHead = (x, y, k, e, f = 1) => { X = x; Y = y; K = k; F = f; XS = []; tonHead(e); seen('ton', P(0, -480)); };
+  window.maiHead = (x, y, k, e, f = 1) => { X = x; Y = y; K = k; F = f; XS = []; maiHead(e); seen('mai', P(0, -440)); };
 })();

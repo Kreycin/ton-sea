@@ -47,10 +47,10 @@
     [.7, { nod: .06, face: { eyes: 'half', mouth: 'smile', look: -1, brow: -.2 }, _d: .45 }],
   ]) });
   function s20b(t, lt) { int(t, [875, 505 - lt * 4, 2.5], IL.gold, { door: 1, umb: 'lean' }, { back: tonAt(880, 100, TON20(lt)) }); }
-  // 20c: WS: she walks away down the gold pier toward the shore, small
+  // 20c: WS: she walks away from the shop down the gold pier toward the shore (s falls: 1 = the shop end), small
   function s20c(t, lt) {
     ext(t, [1000 - lt * 8, 700 - lt * 4, 1.5 - lt * .02], EL.gold, { sweep: 1 }, () => {
-      const s = .58 + .05 * lt, [sx, sy] = EXT.pj(-9 + 13.5 * s, 2.2, 13 + 34 * s), k = 1.65 * 1400 / (13 + 34 * s) / 480;
+      const s = .88 - .05 * lt, [sx, sy] = EXT.pj(-9 + 13.5 * s, 2.2, 13 + 34 * s), k = 1.65 * 1400 / (13 + 34 * s) / 480;
       boilSeed('mai'); mai(sx, sy, k, {}, -1, MAIM.walk(lt), lt);
     });
   }

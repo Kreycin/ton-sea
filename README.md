@@ -25,6 +25,7 @@ loads; ask it for a short film about anything.
 | Dialogue | 22 English lines, Gemini 3.8 Flash TTS on Vertex AI with two prebuilt voices (Ton: Umbriel, Mai: Sulafat). The mouths open with the loudness of the audio. |
 | Sound effects | Synthesized in Node from noise and sine waves, no samples: sea and waves on the posts, rain (outside and through the walls), wind, thunder, gulls, shutters, the kettle and its flame and whistle, tea pours whose pitch rises as the glass fills, the door chime, boots in puddles, steps, drips, a clock. |
 | Music | An original waltz in F written as code (`scripts/score.mjs`), rendered offline through the General MIDI sound bank built into macOS. The melody keeps to the gaps between the spoken lines. |
+| Titles and subtitles | `src/titles.js`, drawn over the finished frame: the title and credits paint themselves into the dawn sky of the first shot; each spoken line is hand-lettered beside (or over) the head of whoever speaks, Ton in cream, Mai in the yellow of her raincoat, the words arriving with the voice and leaving the way the scene's weather moves (washed down by rain, lifted like tea steam, carried off by the breeze). |
 | Mix | Each stem set to a loudness target, the music ducks under the voices, two-pass loudness normalisation, and an automatic check that every spoken line stands at least 8 dB above everything under it. |
 
 ## Quick start
@@ -84,6 +85,7 @@ node render.mjs --clip --range=84:100 --out=out/check/talk.mp4                  
 | `src/scenes/ghibli.js`, `interior.js`, `seascape.js`, `stage.js` | The sets: the shop front in the rain, the interior with six light states, the wide seascape, shared staging. |
 | `src/scenes/a01_shop.js` … `a05_coda.js` | The five acts. Each one is a list of `[startTime, shotFunction]`. |
 | `src/dialog.js` | Generated: when each line plays and its mouth envelope. |
+| `src/titles.js` | The opening title and credits, and the subtitles (text, placement, weather exits). |
 | `scripts/` | Sound and tools: `tts_dialog.py`, `dialog.mjs`, `shotlist.mjs`, `sfx.mjs`, `score.mjs`, `render_music.swift`, `mix.mjs`. |
 | `STORYBOARD.md`, `DIALOGUE.md` | The shot table (written in Thai, for the first narrated cut) and the English dialogue. |
 | `ANIMATION_GUIDE.md` | The kit's guide to the engine and its rules. |

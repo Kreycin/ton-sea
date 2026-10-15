@@ -278,6 +278,7 @@ async function setup() {
   paperG = makePaper(); grainC = makeGrain(); glowTex = makeGlowTex(); letG = createGraphics(W, H); letG.pixelDensity(1);
   outC = document.getElementById('out'); outX = outC.getContext('2d');
   await document.fonts.load('100px "Permanent Marker"');
+  await Promise.all(['700 100px "Charm"', 'italic 500 60px "Cormorant Garamond"', '50px "Patrick Hand"'].map(f => document.fonts.load(f, 'ต้นTon')));
   window.ready = true;
   if (!location.search.includes('render')) devUI();
 }
@@ -296,6 +297,7 @@ function composite(t) {
   c.drawImage(drawingContext.canvas, 0, 0, W, H);
   if (typeof XF_A !== 'undefined' && XF_A > 0) { c.globalAlpha = XF_A; c.drawImage(xfC, 0, 0); c.globalAlpha = 1; }   // dissolve
   drawLetters(c);
+  if (typeof drawOverlay === 'function') drawOverlay(c, t);                 // titles.js: titles and subtitles
   c.globalCompositeOperation = 'multiply'; c.drawImage(grainC, 0, 0);
   c.globalCompositeOperation = 'source-over';
 }

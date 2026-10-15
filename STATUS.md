@@ -28,15 +28,24 @@ code, Ghibli-inspired, built with ClaudeAnimationBase (copied from P Doom).
     `out/audio/mix.wav` (`PROJECT.audio`). Check: every line ≥ 8.6 dB over the bed (speech band).
   - Spectrogram checks of SFX and music timing passed. Claude cannot listen: Nick's ears decide levels and sounds.
 
-- GitHub: `Kreycin/ton-sea` (private, 2026-10-15). README.md + docs/METHOD.md explain the method; out/ is ignored
+- GitHub: `Kreycin/ton-sea` (public since 2026-10-15, Nick's call; secret scan of files + history clean). README.md + docs/METHOD.md explain the method; out/ is ignored
   except the TTS takes, lines.json and shots.txt; narration wavs never go in. Public only when Nick decides.
+- v4 pass (2026-10-15, Nick: subtitles that belong to the story, fix Ton's arms, intro title + credits):
+  - Arms v2 (`cast.js`): `sleeve()` with a round shoulder cap over a fuller forearm; towel drapes down the chest (off the
+    shoulder it read as a third arm). Poses (`moves.js`): HANG_T elbow give, noren hands wide (02), hands on the sill (03a),
+    shrug elbB -1 (06).
+  - `src/titles.js` (`drawOverlay`, called in `composite` after the dissolve, before grain): title ต้นกับทะเล (Charm) +
+    "Ton and the Sea" (Cormorant) + credits (made by Claude Opus 5.5 · voices Gemini 3.8 Flash TTS · music & sound
+    written in code), 0–9.6 s in the dawn sky. Subtitles: English, Patrick Hand, Ton cream / Mai yellow, beside or over the
+    speaker's head (`HEADS`, set by `seen()` in cast.js; reset per shot in timeline.js), off-screen = low italic; words in
+    with the voice, out with the weather (`SUB_EXIT` rain/steam/breeze). `SUB_AT[k]` overrides a placement.
 
 ## Decisions
 - Timeline: `src/air.js` (4 s pre-roll + AIR gaps), 199.95 s; no narration (Nick 2026-10-15).
 - Sound order to rebuild: `node scripts/dialog.mjs` → `shotlist.mjs > out/shots.txt` → `sfx.mjs` → `score.mjs` +
   swift render → `mix.mjs`. Re-run shotlist/sfx whenever shot times change.
 - Visual rules (copy from `ghibli.js`): gouache washes, no outlines on backgrounds; characters thin line `#3A2A2C` + one
-  cel shade; cold world, warm light only from the shop; door ≈ 1.12 × Ton; no lettering on screen.
+  cel shade; cold world, warm light only from the shop; door ≈ 1.12 × Ton; on-screen text = intro titles + subtitles only.
 - Depth stack, back to front: sky strata, sea + haze veil, shop/railing, deck, cast, rain, foreground frame.
 - Colour arc: silver morning → grey → rain → gold after rain → calm dusk.
 - p5.brush gotchas: `gw` makes lumpy blobs on large rects (use `gp`); a 2-point `inkLine` needs a midpoint; with `F=-1`,
@@ -48,10 +57,10 @@ code, Ghibli-inspired, built with ClaudeAnimationBase (copied from P Doom).
 - `src/scenes/styles.js`: rejected style tests, reference only. `out/cast_v1_backup.js`: pre-rig cast.
 
 ## Next
-1. Nick listens to `out/ton-sea_v3_720p.mp4` (v3 render 2026-10-15: 199.95 s, 1080p master `out/video.mp4`, frame-diff OK,
-   off-cut spikes are only the lightning): voices, SFX levels, music; fix notes (`mix.mjs` LEVEL, events in `sfx.mjs`).
-2. English subtitles (`subs.js`), then the final 1080p.
-3. Before the YouTube how-to: Nick decides whether `Kreycin/ton-sea` goes public (audio rights below).
+1. v4 render (arms v2, titles, subtitles): encode with `--audio=out/audio/mix.wav`, ffprobe, cut sheet, frame-diff, send
+   720p + 540p, commit + push. Then Nick reviews; small arm notes left: 22.2 s / 171.4 s long back arm, 173.5 s stool lean.
+2. Sound notes from Nick, if any (`mix.mjs` LEVEL, events in `sfx.mjs`).
+3. YouTube post: title/description drafted (English); cover mockups (3 concepts) after the v4 render.
 
 ## Open questions
 - Audio rights before any public posting: TTS voices are Google prebuilt (Vertex terms); music uses the macOS GS sound

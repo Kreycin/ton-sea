@@ -60,8 +60,9 @@ code, Ghibli-inspired, built with ClaudeAnimationBase (copied from P Doom).
 1. Nick reviews v4 (`out/ton-sea_v4_720p.mp4`, 2026-10-15: 199.95 s 1080p master `out/video.mp4`, frame-diff spikes = only
    lightning; 20c Mai now walks away from the shop). Small arm notes left: 22.2 s / 171.4 s long back arm, 173.5 s stool.
 2. Sound notes from Nick, if any (`mix.mjs` LEVEL, events in `sfx.mjs`).
-3. YouTube post: English title/description drafted in chat; covers `out/cover/cover_{rain,dusk,tea}.jpg` (covers.html +
-   shoot.mjs; clean stills via `render.mjs --sheet=t --clean`). Nick picks one.
+3. On YouTube (Kreycin, public, 2026-10-15): https://youtu.be/MZNS3A2qsdg, cover `out/cover/cover_rain.jpg` (covers.html +
+   shoot.mjs; clean stills via `render.mjs --sheet=t --clean`), cat Film & Animation, lang en. Recorded in Control
+   `data/state.json` ("2026-10-15 Ton and the Sea"). Next: the how-to video, if Nick wants it.
 
 ## Open questions
 - Audio rights before any public posting: TTS voices are Google prebuilt (Vertex terms); music uses the macOS GS sound

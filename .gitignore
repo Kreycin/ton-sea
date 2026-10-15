@@ -1,0 +1,12 @@
+node_modules/
+.DS_Store
+# renders, checks and generated audio: rebuild them with the commands in README.md
+out/*
+# ...except the dialogue script, its TTS takes and the shot list the SFX are placed on
+!out/voice/
+out/voice/*
+!out/voice/lines.json
+!out/voice/raw/
+!out/shots.txt
+# the narration of the first cut (a voice we have no rights to share); only scripts/air.mjs and animatic.py used it
+assets/narration*.wav
